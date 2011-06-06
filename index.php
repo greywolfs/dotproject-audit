@@ -1,1 +1,3 @@
- 
+<?php	$titleBlock = new CTitleBlock('???', '???.???', $m, "$m.$a");
+			$titleBlock->show();
+?>
