@@ -46,7 +46,7 @@ class CSetupAudit{
                              " artefact_name varchar(255) not null,".
                              " artefact_description varchar(255),".
                              " artefact_phase varchar(255),".
-                             " primary key(artefact_id)");
+                             " primary key(artefact_id))");
         if (!$q->exec()) {
             return db_error();
         }
@@ -70,9 +70,9 @@ class CSetupAudit{
         $q->createDefinition("(auditor_id integer auto_increment,".
                              " project_id integer not null,".
                              " user_id integer not null,".
-                             " primary key(auditor_id)".
-                             " foreign key(project_id) references ".dPgetConfig('dbprefix', '')."artefacts (artefact_id),".
-                             " foreign key(user_id) references ".dPgetConfig('dbprefix', '')."auditors (user_id))");
+                             " primary key(auditor_id),".
+                             " foreign key(project_id) references ".dPgetConfig('dbprefix', '')."projects (project_id),".
+                             " foreign key(user_id) references ".dPgetConfig('dbprefix', '')."users (user_id))");
         if (!$q->exec()) {
             return db_error();
         }
