@@ -34,7 +34,14 @@ if (getPermission('audit', 'edit')) {
     $q->setLimit(10);
     $list = $q->loadList(); ?>
 
-    <table>
+    <table class="std" width="100%">
+        <tbody>
+            <tr>
+                <td align="right"><a href="?m=audit&amp;a=add_audictor&amp;project_id=<?= $project_id ?>"><?= $AppUI->_('Add')?></a></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="tbl" width="100%">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -45,7 +52,7 @@ if (getPermission('audit', 'edit')) {
                 <? foreach($list as $item){?>
                 <tr>
                     <td><?= $item['user_username'] ?></td>
-                    <td><a href="?m=audit&amp;a=remove_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Delete')?></a></td>
+                    <td><a href="?m=audit&amp;a=delete_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Delete')?></a></td>
                 </tr>
                 <? } ?>
             </tbody>
