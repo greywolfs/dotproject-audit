@@ -3,26 +3,8 @@ if (!defined('DP_BASE_DIR')) {
     die('You should not access this file directly.');
 }
 
-GLOBAL $AppUI, $project_id, $task_id, $deny, $canRead, $canEdit, $dPconfig, $cfObj, $m, $obj;
+GLOBAL $AppUI, $project_id;
 require_once($AppUI->getModuleClass('audit'));
-
-global $allowed_folders_ary, $denied_folders_ary, $limited;
-
-$cfObj = new CFileFolder();
-$allowed_folders_ary = $cfObj->getAllowedRecords($AppUI->user_id);
-$denied_folders_ary = $cfObj->getDeniedRecords($AppUI->user_id);
-
-$limited = ((count($allowed_folders_ary) < $cfObj->countFolders()) ? true : false);
-
-if (!$limited) {
-    $canEdit = true;
-} else if ($limited && array_key_exists($folder, $allowed_folders_ary)) {
-    $canEdit = true;
-} else {
-    $canEdit = false;
-}
-
-$showProject = false;
 
 if (getPermission('audit', 'view')) {
     $a = new Auditor();
@@ -38,10 +20,10 @@ if (getPermission('audit', 'view')) {
     <table class="tbl" width="100%">
             <thead>
                 <tr>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Email</th>
-                    <th></th>
+                    <th><?= $AppUI->_('Last Name')?></th>
+                    <th><?= $AppUI->_('First Name')?></th>
+                    <th><?= $AppUI->_('Email')?></th>
+                    <th><?= $AppUI->_('Remove')?></th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +32,7 @@ if (getPermission('audit', 'view')) {
                     <td><?= $item['contact_last_name'] ?></td>
                     <td><?= $item['contact_first_name'] ?></td>
                     <td><?= $item['contact_email'] ?></td>
-                    <td><a href="?m=audit&amp;a=delete_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Delete')?></a></td>
+                    <td><a href="?m=audit&amp;a=delete_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Remove')?></a></td>
                 </tr>
                 <? } ?>
             </tbody>
