@@ -25,15 +25,15 @@ class Auditor extends CDpObject {
 
     function loadAll($order = null, $where = null) {
         $this->_query->clear();
-        $this->_query->addTable('auditors');
+        $this->_query->addTable('auditors','auditors');
         if ($order) {
             $this->_query->addOrder($order);
         }
         if ($where) {
             $this->_query->addWhere($where);
         }
-        $this->_query->addJoin('projects', 'projects', 'projects.project_id = '.dPgetConfig('dbprefix', '').'auditors.project_id');
-        $this->_query->addJoin('users', 'users', 'users.user_id = '.dPgetConfig('dbprefix', '').'auditors.auditor_id');
+        $this->_query->addJoin('projects', 'projects', 'projects.project_id = auditors.project_id');
+        $this->_query->addJoin('contacts', 'contacts', 'contacts.contact_id = auditors.contact_id');
         $sql = $this->_query->prepare();
         $this->_query->clear();
         return db_loadHashList($sql, $this->_tbl_key);
