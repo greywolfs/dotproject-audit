@@ -72,10 +72,10 @@ class CSetupAudit{
         $q->createTable('auditors');
         $q->createDefinition("(auditor_id integer auto_increment,".
                              " project_id integer not null,".
-                             " user_id integer not null,".
+                             " contact_id integer not null,".
                              " primary key(auditor_id),".
                              " foreign key(project_id) references ".dPgetConfig('dbprefix', '')."projects (project_id),".
-                             " foreign key(user_id) references ".dPgetConfig('dbprefix', '')."users (user_id))");
+                             " foreign key(contact_id) references ".dPgetConfig('dbprefix', '')."contacts (contact_id))");
         if (!$q->exec()) {
             return db_error();
         }
