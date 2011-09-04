@@ -24,15 +24,9 @@ if (!$limited) {
 
 $showProject = false;
 
-if (getPermission('audit', 'edit')) {
-    $q = new DBQuery();
-    $q->addQuery('*');
-    $q->addTable('auditors');
-    $q->addJoin('projects', 'projects', 'projects.project_id = '.dPgetConfig('dbprefix', '').'auditors.project_id');
-    $q->addJoin('users', 'users', 'users.user_id = '.dPgetConfig('dbprefix', '').'auditors.auditor_id');
-    $q->addWhere('projects.project_id = '.$project_id);
-    $q->setLimit(10);
-    $list = $q->loadList(); ?>
+if (getPermission('audit', 'view')) {
+    $a = new Auditor();
+    $list = $a->loadAll(); ?>
 
     <table class="std" width="100%">
         <tbody>
