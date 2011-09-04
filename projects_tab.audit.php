@@ -38,14 +38,18 @@ if (getPermission('audit', 'view')) {
     <table class="tbl" width="100%">
             <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Email</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <? foreach($list as $item){?>
                 <tr>
-                    <td><?= $item['user_username'] ?></td>
+                    <td><?= $item['contact_last_name'] ?></td>
+                    <td><?= $item['contact_first_name'] ?></td>
+                    <td><?= $item['contact_email'] ?></td>
                     <td><a href="?m=audit&amp;a=delete_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Delete')?></a></td>
                 </tr>
                 <? } ?>
