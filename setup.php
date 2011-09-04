@@ -18,6 +18,9 @@ $config['mod_ui_name'] = "Audit";
 $config['mod_ui_icon'] = "";
 $config['mod_description'] = "A module for auditions";
 $config['mod_config'] = true;
+$config['permissions_item_table'] = "audit";
+$config['permissions_item_field'] = "audit_id";
+$config['permissions_item_label'] = "audit_name";
 
 class CSetupAudit{
 
@@ -96,6 +99,7 @@ class CSetupAudit{
         $q->createDefinition("(audit_id integer auto_increment,".
                              " artefact_id integer not null,".
                              " auditor_id integer not null,".
+                             " audit_name varchar(255) not null,".
                              " primary key(audit_id),".
                              " foreign key(artefact_id) references ".dPgetConfig('dbprefix', '')."artefacts (artefact_id),".
                              " foreign key(auditor_id) references ".dPgetConfig('dbprefix', '')."auditors (user_id))");
