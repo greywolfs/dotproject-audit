@@ -8,15 +8,16 @@ require_once($AppUI->getModuleClass('audit'));
 
 if (getPermission('audit', 'view')) {
     $a = new Auditor();
-    $list = $a->loadAll(); ?>
-
-    <table class="std" width="100%">
-        <tbody>
-            <tr>
-                <td align="right"><a href="?m=audit&amp;a=add_audictor&amp;project_id=<?= $project_id ?>"><?= $AppUI->_('Add')?></a></td>
-            </tr>
-        </tbody>
-    </table>
+    $list = $a->loadAll();
+    if (getPermission('audit', 'add')){ ?>
+        <table class="std" width="100%">
+            <tbody>
+                <tr>
+                    <td align="right"><a href="?m=audit&amp;a=add_auditor&amp;project_id=<?= $project_id ?>"><?= $AppUI->_('Add')?></a></td>
+                </tr>
+            </tbody>
+        </table>
+<?php  } ?>
     <table class="tbl" width="100%">
             <thead>
                 <tr>
@@ -27,16 +28,16 @@ if (getPermission('audit', 'view')) {
                 </tr>
             </thead>
             <tbody>
-                <? foreach($list as $item){?>
+                <?php foreach($list as $item){?>
                 <tr>
                     <td><?= $item['contact_last_name'] ?></td>
                     <td><?= $item['contact_first_name'] ?></td>
                     <td><?= $item['contact_email'] ?></td>
-                    <td><a href="?m=audit&amp;a=delete_audictor&amp;audictor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Remove')?></a></td>
+                    <td><a href="?m=audit&amp;a=delete_auditor&amp;auditor_id=<?= $item['auditor_id'] ?>"><?= $AppUI->_('Remove')?></a></td>
                 </tr>
-                <? } ?>
+                <?php } ?>
             </tbody>
     </table>
-<?
+<?php
 }
 ?>
