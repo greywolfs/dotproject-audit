@@ -43,13 +43,12 @@ class Auditor extends CDpObject {
     }
 
     function save() {
-        global $contact_id, $project_id;
-        if ($this->$contact_id != NULL || $this->$project_id != NULL){
+        if ($this->contact_id != NULL && $this->project_id != NULL){
             $this->_query->clear();
             $this->_query->addTable('auditors');
-            $this->_query->addInsert('project_id',$contact_id);
-            $this->_query->addInsert('contact_id',$project_id);
-            $this->_query->prepare();
+            $this->_query->addInsert('project_id',$this->project_id);
+            $this->_query->addInsert('contact_id',$this->contact_id);
+            $this->_query->exec();
             $this->_query->clear();
             return true;
         }
@@ -60,7 +59,7 @@ class Auditor extends CDpObject {
         $this->_query->clear();
         $this->_query->addTable('auditors');
         $this->_query->addWhere('auditor_id = '.$auditor_id);
-        $this->_query->prepare();
+        $this->_query->exec();
         $this->_query->clear();
         return $this->loadObject;
     }
