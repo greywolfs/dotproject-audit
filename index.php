@@ -1,3 +1,4 @@
-<?php	$titleBlock = new CTitleBlock('Audit', '', $m, "$m.$a");
-			$titleBlock->show();
+<?php
+    $titleBlock = new CTitleBlock('Audit', '', $m, "$m.$a");
+    $titleBlock->show();
 ?>
