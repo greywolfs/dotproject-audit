@@ -46,11 +46,14 @@ class CSetupAudit{
         $q = new DBQuery();
         $q->createTable('artefacts');
         $q->createDefinition("(artefact_id integer auto_increment,".
+                             " project_id integer not null,".
                              " artefact_name varchar(255) not null,".
-                             " artefact_description varchar(255),".
-                             " artefact_phase varchar(255),".
-                             " artefact_status varchar(255),".
-                             " primary key(artefact_id))");
+                             " artefact_phase varchar(255) not null,".
+                             " artefact_short_description varchar(255) not null,".
+                             " artefact_description varchar(255) not null,".
+                             " artefact_status varchar(255) not null,".
+                             " primary key(artefact_id),".
+                             " foreign key(project_id) references ".dPgetConfig('dbprefix', '')."projects (project_id))");
         if (!$q->exec()) {
             return db_error();
         }
