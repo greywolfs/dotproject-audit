@@ -9,6 +9,7 @@ require_once($AppUI->getModuleClass('audit'));
 
 $artefact_id = intval(dPgetParam($_GET, 'artefact_id', 0));
 
+
 if($artefact_id){
    if (getPermission('audit', 'delete')){
        if($artefact_id){
@@ -46,7 +47,7 @@ if (getPermission('audit', 'view')) {
                 <tr>
                     <td><?php echo $item['artefact_name']; ?></td>
                     <td><?php echo $item['artefact_short_description']; ?></td>
-                    <td><a href="?m=projects&amp;a=view&amp;project_id=<?php echo $project_id; ?>&amp;tab=5&amp;artefact_id=<?php echo $item['artefact_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
+                    <td><a href="?m=projects&amp;a=view&amp;project_id=<?php echo $project_id; ?>&amp;tab=6&amp;artefact_id=<?php echo $item['artefact_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
                 </tr>
                 <?php } ?>
             </tbody>

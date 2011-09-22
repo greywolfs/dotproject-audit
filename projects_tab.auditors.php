@@ -48,7 +48,7 @@ if (getPermission('audit', 'view')) {
                     <td><?php echo $item['contact_last_name']; ?></td>
                     <td><?php echo $item['contact_first_name']; ?></td>
                     <td><?php echo $item['contact_email']; ?></td>
-                    <td><a href="?m=projects&amp;a=view&amp;project_id=<?php echo $project_id; ?>&amp;tab=6&amp;auditor_id=<?php echo $item['auditor_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
+                    <td><a href="?m=projects&amp;a=view&amp;project_id=<?php echo $project_id; ?>&amp;tab=5&amp;auditor_id=<?php echo $item['auditor_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
                 </tr>
                 <?php } ?>
             </tbody>
