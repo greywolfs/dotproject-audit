@@ -49,6 +49,7 @@ class CSetupAudit{
                              " artefact_name varchar(255) not null,".
                              " artefact_description varchar(255),".
                              " artefact_phase varchar(255),".
+                             " artefact_status varchar(255),".
                              " primary key(artefact_id))");
         if (!$q->exec()) {
             return db_error();
