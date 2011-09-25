@@ -3,28 +3,28 @@ if (!defined('DP_BASE_DIR')) {
     die('You should not access this file directly.');
 }
 
+require_once($AppUI->getModuleClass('projects'));
+
 class CProjectAudit extends CProject {
-
-    function GetContacts() {
+    function GetContacts($project_id) {
         $this->_query->clear();
-        $this->_query->addTable('project_contacts');
-        $this->_query->addJoin('contacts', 'contacts', 'contacts.contact_id = project_contacts.contact_id');
-        $this->_query->addWhere('project_contacts.project_id = '.$this->project_id);
-        $this->_query->prepare();
-        return db_loadHashList($this->_query, 'contacts.contact_id');
+        $this->_query->addTable('contacts', 'contacts');
+        $this->_query->addJoin('project_contacts', 'project_contacts', 'contacts.contact_id = project_contacts.contact_id');
+        $this->_query->addWhere('project_contacts.project_id = '.$project_id);
+        $sql = $this->_query->prepare(); echo $sql;
+        return db_loadHashList($sql, 'contact_id');
     }
 
-    function GetAuditors() {
+    function GetAuditors($project_id) {
         $this->_query->clear();
-        $this->_query->addTable('auditors');
-        $this->_query->addJoin('contacts', 'contacts', 'contacts.contact_id = auditors.contact_id');
-        $this->_query->addWhere('auditors.project_id = '.$this->project_id);
-        $this->_query->prepare();
-        return db_loadHashList($this->_query, 'contacts.contact_id');
+        $this->_query->addTable('contacts', 'contacts');
+        $this->_query->addJoin('auditors', 'auditors', 'contacts.contact_id = auditors.contact_id');
+        $this->_query->addWhere('auditors.project_id = '.$project_id);
+        $sql = $this->_query->prepare();
+        return db_loadHashList($sql, 'contact_id');
     }
 
-    function GetNotAuditors(){
-        return array_diff($this->GetContacts(), $this->GetAuditors());
+    function GetNotAuditors($project_id){
+        return array_diff($this->GetContacts($project_id), $this->GetAuditors($project_id));
     }
-
 }

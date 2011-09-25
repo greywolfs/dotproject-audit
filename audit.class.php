@@ -4,6 +4,12 @@ if (!defined('DP_BASE_DIR')) {
 }
 
 require_once $AppUI->getSystemClass('dp');
+
+require_once DP_BASE_DIR.'/modules/audit/artefact.class.php';
+require_once DP_BASE_DIR.'/modules/audit/auditor.class.php';
+require_once DP_BASE_DIR.'/modules/audit/cproject.class.php';
+require_once DP_BASE_DIR.'/modules/audit/checklist.class.php';
+
 /**
  * Audit Class
  */
@@ -13,88 +19,4 @@ class Audit extends CDpObject {
         return true;
     }
 }
-
-class Auditor extends CDpObject {
-
-    var $contact_id = NULL;
-    var $project_id = NULL;
-
-    function Auditor() {
-        $this->CDpObject('auditors', 'auditor_id');
-    }
-
-    function loadAll($order = null, $where = null) {
-        $q = new DBQuery();
-        $q->clear();
-        $q->addTable('auditors','auditors');
-        if ($order) {
-            $q->addOrder($order);
-        }
-        if ($where) {
-            $q->addWhere($where);
-        }
-        $q->addJoin('projects', 'projects', 'projects.project_id = auditors.project_id');
-        $q->addJoin('contacts', 'contacts', 'contacts.contact_id = auditors.contact_id');
-        $sql = $q->prepare();
-        return db_loadHashList($sql, $this->_tbl_key);
-    }
-
-    function save() {
-        $q = new DBQuery();
-        $q->clear();
-        if ($this->contact_id != NULL && $this->project_id != NULL){
-            $q->addTable('auditors');
-            $q->addInsert('project_id',$this->project_id);
-            $q->addInsert('contact_id',$this->contact_id);
-            $q->prepare();
-            return true;
-        }
-        return false;
-    }
-
-    function find($auditor_id){
-        $q = new DBQuery();
-        $q->clear();
-        $q->addTable('auditors');
-        $q->addWhere('auditor_id = '.$auditor_id);
-        $q->prepare();
-        return $this->loadObject;
-    }
-
-    function remove($auditor_id){
-        $q = new DBQuery();
-        $q->setDelete('auditors');
-        $q->addWhere('auditor_id = ' . $auditor_id);
-        if (!$q->exec())
-			return db_error();
-		else
-			return null;
-    }
-
-}
-    class Artefact extends CDpObject {
-
-        var $project_id = NULL;
-        var $artefact_id = NULL;
-        var $artefact_name = NULL;
-        var $artefact_short_description = NULL;
-        var $artefact_description = NULL;
-        var $artefact_phase = NULL;
-        var $artefact_status = NULL;
-
-        function Artefact() {
-            $this->CDpObject('artefacts', 'artefact_id');
-        }
-
-        function remove($artefact_id){
-        $q = new DBQuery();
-        $q->setDelete('artefacts');
-        $q->addWhere('artefact_id = ' . $artefact_id);
-        if (!$q->exec())
-			return db_error();
-		else
-			return null;
-    }
-
-    }
 ?>
