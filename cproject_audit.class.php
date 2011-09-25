@@ -11,7 +11,7 @@ class CProjectAudit extends CProject {
         $this->_query->addTable('contacts', 'contacts');
         $this->_query->addJoin('project_contacts', 'project_contacts', 'contacts.contact_id = project_contacts.contact_id');
         $this->_query->addWhere('project_contacts.project_id = '.$project_id);
-        $sql = $this->_query->prepare(); echo $sql;
+        $sql = $this->_query->prepare();
         return db_loadHashList($sql, 'contact_id');
     }
 
@@ -22,9 +22,5 @@ class CProjectAudit extends CProject {
         $this->_query->addWhere('auditors.project_id = '.$project_id);
         $sql = $this->_query->prepare();
         return db_loadHashList($sql, 'contact_id');
-    }
-
-    function GetNotAuditors($project_id){
-        return array_diff($this->GetContacts($project_id), $this->GetAuditors($project_id));
     }
 }
