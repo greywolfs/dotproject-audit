@@ -23,4 +23,12 @@ class CProjectAudit extends CProject {
         $sql = $this->_query->prepare();
         return db_loadHashList($sql, 'contact_id');
     }
+
+    function isAuditor($project_id, $contact_id){
+        $this->_query->clear();
+        $this->_query->addTable('auditors', 'auditors');
+        $this->_query->addWhere('auditors.project_id = '.$project_id.' and auditors.contact_id = '.$contact_id);
+        $sql = $this->_query->prepare();
+        return db_loadHashList($sql, 'contact_id');
+    }
 }

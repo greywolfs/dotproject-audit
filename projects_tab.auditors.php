@@ -14,7 +14,7 @@ if (getPermission('audit', 'view')) {
         <table class="std" width="100%">
             <tbody>
                 <tr>
-                    <td align="right"><a href="?m=audit&amp;a=add_auditor"><?php echo $AppUI->_('Add');?></a></td>
+                    <td align="right"><a href="?m=audit&amp;a=add_auditors&amp;project_id=<?php echo $project_id; ?>"><?php echo $AppUI->_('Add');?></a></td>
                 </tr>
             </tbody>
         </table>
@@ -34,7 +34,7 @@ if (getPermission('audit', 'view')) {
                     <td><?php echo $item['contact_last_name']; ?></td>
                     <td><?php echo $item['contact_first_name']; ?></td>
                     <td><?php echo $item['contact_email']; ?></td>
-                    <td><a href="?m=projects&amp;a=delete_auditor&amp;auditor_id=<?php echo $item['auditor_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
+                    <td><a href="?m=audit&amp;a=delete_auditor&amp;auditor_id=<?php echo $item['auditor_id']; ?>&amp;project_id=<?php echo $project_id; ?>"><?php echo $AppUI->_('Remove');?></a></td>
                 </tr>
             <?php } ?>
         </tbody>

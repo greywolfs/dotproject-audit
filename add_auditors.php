@@ -3,10 +3,11 @@ if (!defined('DP_BASE_DIR')) {
     die('You should not access this file directly.');
 }
 
-$project_id = intval(dPgetParam($_GET, 'project_id', 0));
+$project_id = dPgetParam($_GET, 'project_id', 0);
 $auditors = dPgetParam($_POST, 'auditors', 0);
 
 require_once($AppUI->getModuleClass('audit'));
+require_once($AppUI->getModuleClass('contacts'));
 
 if($auditors){
     foreach($auditors as $auditor){
@@ -14,18 +15,19 @@ if($auditors){
         $a->bind(array('project_id' => $project_id, 'contact_id' => $auditor));
         $a->store();
     }
+    $AppUI->redirect('m=projects&a=view&project_id='.$project_id.'&tab='.$AppUI->getState('ProjVwTab'));
 }
 
 //setup the title block
 $titleBlock = new CTitleBlock('Add Auditors');
 $titleBlock->show();
 
-require_once($AppUI->getModuleClass('contacts'));
+$p = new CProjectAudit();
 $c = new CContact();
 $list = $c->loadAll();
 ?>
 
-<form name="addauditors" action="?m=audit&a=add_auditor&project_id=<?php echo $project_id ?>" method="post">
+<form name="add_auditors" action="?m=audit&a=add_auditors&amp;project_id=<?php echo $project_id; ?>" method="post">
     <table cellspacing="0" cellpadding="4" border="0" width="100%" class="std">
         <thead>
             <tr>
@@ -37,12 +39,14 @@ $list = $c->loadAll();
         </thead>
         <tbody>
             <?php foreach($list as $item){ ?>
-                <tr>
-                    <td><input type="checkbox" name="auditors[]" value="<?php echo $item['contact_id'];?>" /></td>
-                    <td><?php echo $item['contact_last_name']; ?></td>
-                    <td><?php echo $item['contact_first_name']; ?></td>
-                    <td><?php echo $item['contact_email']; ?></td>
-                </tr>
+                <?php if(!$p->isAuditor($project_id, $item['contact_id'])){ ?>
+                    <tr>
+                        <td><input type="checkbox" name="auditors[]" value="<?php echo $item['contact_id'];?>" /></td>
+                        <td><?php echo $item['contact_last_name']; ?></td>
+                        <td><?php echo $item['contact_first_name']; ?></td>
+                        <td><?php echo $item['contact_email']; ?></td>
+                    </tr>
+                <?php } ?>
             <?php } ?>
         </tbody>
     </table>
