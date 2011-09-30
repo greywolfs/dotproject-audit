@@ -4,23 +4,8 @@ if (!defined('DP_BASE_DIR')) {
 }
 
 GLOBAL $AppUI, $project_id;
+
 require_once($AppUI->getModuleClass('audit'));
-
-
-$artefact_id = intval(dPgetParam($_GET, 'artefact_id', 0));
-
-
-if($artefact_id){
-   if (getPermission('audit', 'delete')){
-       if($artefact_id){
-            $obj_artefact = new Artefact();
-           // nao esta utilizando o delete de API do DP que seria
-           // $obj_auditor->delete($auditor_id);
-            $obj_artefact->remove($artefact_id);
-        }
-
-    }
-}
 
 if (getPermission('audit', 'view')) {
     $a = new Artefact();
@@ -47,7 +32,7 @@ if (getPermission('audit', 'view')) {
                 <tr>
                     <td><?php echo $item['artefact_name']; ?></td>
                     <td><?php echo $item['artefact_short_description']; ?></td>
-                    <td><a href="?m=projects&amp;a=view&amp;project_id=<?php echo $project_id; ?>&amp;tab=6&amp;artefact_id=<?php echo $item['artefact_id']; ?>"><?php echo $AppUI->_('Remove');?></a></td>
+                    <td><a href="?m=audit&amp;a=delete_artefact&amp;artefact_id=<?php echo $item['artefact_id']; ?>&amp;project_id=<?php echo $project_id; ?>"><?php echo $AppUI->_('Remove');?></a></td>
                 </tr>
                 <?php } ?>
             </tbody>
