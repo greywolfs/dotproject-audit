@@ -8,12 +8,14 @@ $auditors = dPgetParam($_POST, 'auditors', 0);
 
 require_once($AppUI->getModuleClass('audit'));
 require_once($AppUI->getModuleClass('contacts'));
+require_once($AppUI->getSystemClass('libmail'));
 
 if($auditors){
     foreach($auditors as $auditor){
         $a = new Auditor();
         $a->bind(array('project_id' => $project_id, 'contact_id' => $auditor));
         $a->store();
+        //$a->sendMail();
     }
     $AppUI->redirect('m=projects&a=view&project_id='.$project_id.'&tab='.$AppUI->getState('ProjVwTab'));
 }
