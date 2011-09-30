@@ -37,5 +37,16 @@ class Auditor extends CDpObject {
 		$result = ((!$this->_query->exec())?db_error():null);
 		return $result;
 	}
+
+
+    function sendMail(){
+        $mail = new Mail;
+        $mail->From("DotProject");
+        //ERRO     $mail->To(???????);
+        $mail->Subject("[DotProject] Auditor");
+        $mail->Body("Você foi escolhido como auditor para o projeto ". $this->project_id);
+        $mail->Send() || fatal_error("Unable to mail followup.  Quit without recording followup to database.");
+    }
+
 }
 ?>
