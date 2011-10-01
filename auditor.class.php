@@ -10,6 +10,7 @@ if (!defined('DP_BASE_DIR')) {
 class Auditor extends CDpObject {
     var $contact_id = NULL;
     var $project_id = NULL;
+    var $mail = NULL;
 
     function Auditor() {
         $this->CDpObject('auditors', 'auditor_id');
@@ -38,15 +39,18 @@ class Auditor extends CDpObject {
 		return $result;
 	}
 
-
-    function sendMail(){
-        $mail = new Mail;
-        $mail->From("DotProject");
-        //ERRO     $mail->To(???????);
-        $mail->Subject("[DotProject] Auditor");
-        $mail->Body("Você foi escolhido como auditor para o projeto ". $this->project_id);
-        $mail->Send() || fatal_error("Unable to mail followup.  Quit without recording followup to database.");
+    function getContact(){
+        $this->_query->clear();
+		$this->_query->addTable('contacts');
+		$this->_query->addWhere('contacts.contact_id = '.$this->contact_id);
+		$sql = $this->_query->prepare();
+		return db_loadObject($sql, null);
     }
 
+    function setMail(){
+        $this->mail = new Mail();
+        $this->mail->From("DotProject");
+        $this->mail->To($this->getContact->email);
+    }
 }
 ?>

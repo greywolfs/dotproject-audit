@@ -14,8 +14,12 @@ if($auditors){
     foreach($auditors as $auditor){
         $a = new Auditor();
         $a->bind(array('project_id' => $project_id, 'contact_id' => $auditor));
-        $a->store();
-        //$a->sendMail();
+        if($a->store()){
+            $a->setMail();
+            $a->mail->Subject("[DotProject] Auditor");
+            $a->mail->Body("You have been chosen as auditor on project ". $this->project_id);
+            $a->mail->Send();
+        }
     }
     $AppUI->redirect('m=projects&a=view&project_id='.$project_id.'&tab='.$AppUI->getState('ProjVwTab'));
 }
