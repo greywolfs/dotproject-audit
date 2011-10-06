@@ -8,16 +8,19 @@ $auditors = dPgetParam($_POST, 'auditors', 0);
 
 require_once($AppUI->getModuleClass('audit'));
 require_once($AppUI->getModuleClass('contacts'));
+require_once($AppUI->getModuleClass('projects'));
 require_once($AppUI->getSystemClass('libmail'));
 
 if($auditors){
+    $project = new CProject();
+    $project->load($project_id);
     foreach($auditors as $auditor){
         $a = new Auditor();
         $a->bind(array('project_id' => $project_id, 'contact_id' => $auditor));
-        if($a->store()){
+        if($a->store() == NULL){
             $a->setMail();
             $a->mail->Subject("[DotProject] Auditor");
-            $a->mail->Body("You have been chosen as auditor on project ". $this->project_id);
+            $a->mail->Body("You have been chosen as auditor on project ". $project->project_name);
             $a->mail->Send();
         }
     }

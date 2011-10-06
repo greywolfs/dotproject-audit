@@ -39,18 +39,19 @@ class Auditor extends CDpObject {
 		return $result;
 	}
 
-    function getContact(){
+    function contact(){
         $this->_query->clear();
-		$this->_query->addTable('contacts');
+		$this->_query->addTable('contacts','contacts');
 		$this->_query->addWhere('contacts.contact_id = '.$this->contact_id);
 		$sql = $this->_query->prepare();
-		return db_loadObject($sql, null);
+		return db_loadHashList($sql, 'contact_id');
     }
 
     function setMail(){
+        $contact = array_pop($this->contact());
         $this->mail = new Mail();
         $this->mail->From("DotProject");
-        $this->mail->To($this->getContact->email);
+        $this->mail->To($contact['contact_email']);
     }
 }
 ?>
